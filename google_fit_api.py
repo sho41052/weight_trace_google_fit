@@ -3,6 +3,7 @@ import os
 import httplib2
 from datetime import datetime
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.file import Storage
 
@@ -46,10 +47,20 @@ class google_fit_api:
 
         return service
 
+    @staticmethod
+    def execute_request(request):
+        try:
+            return request.execute()
+        except HttpError as e:
+            print(json.loads(e.content)['error']['code'])
+            print(json.loads(e.content)['error']['message'])
+            print(json.loads(e.content)['error']['status'])
+            exit()
+
     def create_data_source(self, data_name, val_type, app_name, app_version,
                            datatype_name, datatype_field_name, datatype_field_format):
 
-        ret = self.google_fit_service.users().dataSources().create(
+        request = self.google_fit_service.users().dataSources().create(
             userId='me',
             body={
                 "dataStreamName": data_name,
@@ -67,15 +78,16 @@ class google_fit_api:
                         }
                     ]
                 },
-            }).execute()
-        return ret
+            })
+
+        return self.execute_request(request)
 
     def delete_data_source(self, dataSourceId):
-        ret = self.google_fit_service.users().dataSources().delete(
+        request = self.google_fit_service.users().dataSources().delete(
             userId='me',
             dataSourceId=dataSourceId
-        ).execute()
-        return ret
+        )
+        return self.execute_request(request)
 
     def insert_data_point(self, data_source_id, data_type_name, input_date, input_value):
 
@@ -84,7 +96,7 @@ class google_fit_api:
         up = int(input_date.timestamp() * 1000000000)
         data_set = "%s-%s" % (start, end)
 
-        ret = self.google_fit_service.users().dataSources().datasets().patch(
+        request = self.google_fit_service.users().dataSources().datasets().patch(
             userId='me',
             dataSourceId=data_source_id,
             datasetId=data_set,
@@ -100,15 +112,16 @@ class google_fit_api:
                         'fpVal': input_value
                     }]
                 }]
-            }).execute()
+            })
 
-        return ret
+        return self.execute_request(request)
 
     def get_datasource_list(self):
-        fitness_service = self.google_fit_service
         data_list_file = 'data/datasource_list.json'
 
-        data_list = fitness_service.users().dataSources().list(userId='me').execute()
+        request = self.google_fit_service.users().dataSources().list(userId='me')
+        data_list = self.execute_request(request)
+
         with open(data_list_file, 'w') as f:
             json.dump(data_list, f, indent=4)
 
@@ -119,17 +132,19 @@ class google_fit_api:
         end = int(datetime(input_date.year, input_date.month, input_date.day, 23, 59, 59).timestamp() * 1000000000)
         data_set = "%s-%s" % (start, end)
 
-        return self.google_fit_service.users().dataSources().datasets().get(
+        request = self.google_fit_service.users().dataSources().datasets().get(
             userId='me',
             dataSourceId=data_source_id,
             datasetId=data_set
-        ).execute()
+        )
+
+        return self.execute_request(request)
 
     def get_data_multi_days(self, data_source_id, data_type_name, start_day, end_day):
         start = int(datetime(start_day.year, start_day.month, start_day.day, 0, 0, 0).timestamp()) * 1000
         end = int(datetime(end_day.year, end_day.month, end_day.day, 23, 59, 59).timestamp()) * 1000
 
-        return self.google_fit_service.users().dataset().aggregate(
+        request = self.google_fit_service.users().dataset().aggregate(
             userId="me",
             body={
                 "aggregateBy": [{
@@ -141,4 +156,6 @@ class google_fit_api:
                 },
                 "startTimeMillis": start,
                 "endTimeMillis": end
-            }).execute()
+            })
+
+        return self.execute_request(request)
