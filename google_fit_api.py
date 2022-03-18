@@ -91,8 +91,8 @@ class google_fit_api:
 
     def insert_data_point(self, data_source_id, data_type_name, input_date, input_value):
 
-        start = int(datetime(input_date.year, input_date.month, input_date.day, 0, 0, 0).timestamp() * 1000000000)
-        end = int(datetime(input_date.year, input_date.month, input_date.day, 23, 59, 59).timestamp() * 1000000000)
+        start = int(datetime(input_date.year, input_date.month, input_date.day, 0, 0, 0).timestamp() * 1000_000_000)
+        end = int(datetime(input_date.year, input_date.month, input_date.day, 23, 59, 59).timestamp() * 1000_000_000)
         up = int(input_date.timestamp() * 1000000000)
         data_set = "%s-%s" % (start, end)
 
@@ -113,6 +113,20 @@ class google_fit_api:
                     }]
                 }]
             })
+
+        return self.execute_request(request)
+
+    def delete_data_point(self, data_source_id, start_date, end_date):
+
+        start = int(start_date.timestamp() * 1000_000_000)
+        end = int(end_date.timestamp() * 1000_000_000)
+        data_set = "%s-%s" % (start, end)
+
+        request = self.google_fit_service.users().dataSources().datasets().delete(
+            userId='me',
+            dataSourceId=data_source_id,
+            datasetId=data_set
+        )
 
         return self.execute_request(request)
 
