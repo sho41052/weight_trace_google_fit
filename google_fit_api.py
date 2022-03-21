@@ -43,7 +43,7 @@ class google_fit_api:
                 Storage(self.credentials_file).put(credentials)
 
         http = credentials.authorize(httplib2.Http())
-        service = build('fitness', 'v1', http=http)
+        service = build('fitness', 'v1', http=http, cache_discovery=False)
 
         return service
 
