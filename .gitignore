@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 # secret files
-.secret
+.secret/credentials
+.secret/oauth2.json
