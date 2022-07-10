@@ -22,34 +22,34 @@ class MainWindow(QMainWindow):
         menubar = self.menuBar()
 
         # File Menu
-        fileMenu = menubar.addMenu('File')
+        file_menu = menubar.addMenu('File')
         # Save pic in File
-        savePicAction = QAction('Save picture', self)
-        savePicAction.triggered.connect(self.save_picture)
-        fileMenu.addAction(savePicAction)
+        save_pic_action = QAction('Save picture', self)
+        save_pic_action.triggered.connect(self.save_picture)
+        file_menu.addAction(save_pic_action)
         # Update graph data
-        updateGraphData = QAction('Update graph', self)
-        updateGraphData.triggered.connect(self.update_graph_data)
-        fileMenu.addAction(updateGraphData)
+        update_graph_data = QAction('Update graph', self)
+        update_graph_data.triggered.connect(self.update_graph_data)
+        file_menu.addAction(update_graph_data)
         # Exit in File
-        exitAction = QAction('Exit', self)
-        exitAction.triggered.connect(qApp.quit)
-        fileMenu.addAction(exitAction)
+        exit_action = QAction('Exit', self)
+        exit_action.triggered.connect(qApp.quit)
+        file_menu.addAction(exit_action)
 
         # Mode Menu
         '''
         https://stackoverflow.com/questions/48447053/one-qaction-checkable-at-time-in-qmenu
         '''
-        modeType = QMenu('Mode', self)
-        group = QActionGroup(modeType)
+        mode_type = QMenu('Mode', self)
+        group = QActionGroup(mode_type)
         texts = ['graph', 'insert']
         for text in texts:
-            action = QAction(text, modeType, checkable=True, checked=(text == texts[0]))
-            modeType.addAction(action)
+            action = QAction(text, mode_type, checkable=True, checked=(text == texts[0]))
+            mode_type.addAction(action)
             group.addAction(action)
         group.setExclusive(True)
         group.triggered.connect(self.mode_change)
-        menubar.addMenu(modeType)
+        menubar.addMenu(mode_type)
 
         # Modes in Mode
         self.widget_weight_fat = weight_fat_graph()
