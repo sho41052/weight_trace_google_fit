@@ -2,7 +2,7 @@ import os
 import itertools
 import pandas as pd
 import pathlib
-from google_fit_api import google_fit_api
+from scripts.google_fit_api import google_fit_api
 from datetime import datetime, timedelta
 
 

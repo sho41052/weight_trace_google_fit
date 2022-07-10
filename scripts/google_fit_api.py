@@ -19,8 +19,8 @@ REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'
 class google_fit_api:
 
     def __init__(self):
-        self.oauth_file_path = '.secret/oauth2.json'
-        self.credentials_file = ".secret/credentials"
+        self.oauth_file_path = 'scripts/.secret/oauth2.json'
+        self.credentials_file = "scripts/.secret/credentials"
         self.google_fit_service = self.authorization()
 
     def authorization(self):

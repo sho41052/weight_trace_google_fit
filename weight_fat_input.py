@@ -5,7 +5,7 @@ from datetime import datetime
 from PyQt5.QtGui import QDoubleValidator
 from PyQt5.QtWidgets import QWidget, QLineEdit, QPushButton, QFormLayout, QVBoxLayout, QMessageBox
 
-from google_fit_api import google_fit_api
+from scripts.google_fit_api import google_fit_api
 
 
 class weight_fat_input(QWidget):
