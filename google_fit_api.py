@@ -4,7 +4,7 @@ import httplib2
 from datetime import datetime
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from oauth2client.client import flow_from_clientsecrets
+from oauth2client.client import flow_from_clientsecrets, HttpAccessTokenRefreshError
 from oauth2client.file import Storage
 
 OAUTH_SCOPE = [
@@ -55,6 +55,10 @@ class google_fit_api:
             print(json.loads(e.content)['error']['code'])
             print(json.loads(e.content)['error']['message'])
             print(json.loads(e.content)['error']['status'])
+            exit()
+        except HttpAccessTokenRefreshError as e:
+            print(e.__class__.__name__)
+            print(e)
             exit()
 
     def create_data_source(self, data_name, val_type, app_name, app_version,
