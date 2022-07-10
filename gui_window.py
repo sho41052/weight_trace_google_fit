@@ -4,8 +4,8 @@ import sys
 from datetime import datetime
 from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, qApp, QStackedWidget, QMenu, QActionGroup
 
-from weight_fat_graph import weight_fat_graph
-from weight_fat_input import weight_fat_input
+from scripts.weight_fat_graph import weight_fat_graph
+from scripts.weight_fat_input import weight_fat_input
 
 logging.basicConfig(level=logging.INFO)
 

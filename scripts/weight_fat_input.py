@@ -12,7 +12,7 @@ class weight_fat_input(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        if not os.path.exists('config.ini'):
+        if not os.path.exists('../config.ini'):
             self.config = configparser.RawConfigParser()
             self.config.add_section('Weight')
             self.config.set('Weight', 'data_source_id', '')
@@ -20,7 +20,7 @@ class weight_fat_input(QWidget):
             self.config.add_section('Fat')
             self.config.set('Fat', 'data_source_id', '')
             self.config.set('Fat', 'data_type', '')
-            with open('config.ini', 'w') as file:
+            with open('../config.ini', 'w') as file:
                 self.config.write(file)
         else:
             self.config = configparser.ConfigParser()

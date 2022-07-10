@@ -30,10 +30,10 @@ def get_data():
     min_start = datetime(2021, 11, 1)
 
     # load previous data
-    if os.path.exists('data/main_data.pkl'):
-        last_update = datetime.fromtimestamp(pathlib.Path('data/main_data.pkl').stat().st_mtime).date()
+    if os.path.exists('../data/main_data.pkl'):
+        last_update = datetime.fromtimestamp(pathlib.Path('../data/main_data.pkl').stat().st_mtime).date()
         if last_update == datetime.today().date():
-            df = pd.read_pickle('data/main_data.pkl')
+            df = pd.read_pickle('../data/main_data.pkl')
             min_start = datetime.today()# - timedelta(days=1)
 
     for i in itertools.count():

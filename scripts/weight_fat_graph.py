@@ -9,7 +9,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 from matplotlib.ticker import MultipleLocator
 from matplotlib.widgets import RangeSlider
 
-import getfit
+from scripts import getfit
 
 
 class weight_fat_graph(FigureCanvasQTAgg):
